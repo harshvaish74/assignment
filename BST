@@ -1,0 +1,91 @@
+#include<iostream>
+using namespace std;
+#include "binaryTreeClass.h"
+#include<queue>
+#include<climits>
+binaryTreeNode<int>* takeinputLevelwise(){
+    int rootdata;
+    cout<<"enter the root data : "<<endl;
+    cin>>rootdata;
+    binaryTreeNode<int>* rootnode=new binaryTreeNode<int>(rootdata);
+    queue<binaryTreeNode<int>*> pending;
+    pending.push(rootnode);
+    while(!pending.empty()){
+        binaryTreeNode<int>* front=pending.front();
+        pending.pop();
+        int leftdata;
+        int rightdata;
+        cout<<"enter the left data of "<<front->data<<endl;
+        cin>>leftdata;
+        if(leftdata!=-1){
+        binaryTreeNode<int>* leftnode=new binaryTreeNode<int>(leftdata);
+        front->left=leftnode;
+        pending.push(leftnode);
+        }
+
+        cout<<"enter the right data of "<<front->data<<endl;
+        cin>>rightdata;
+        if(rightdata!=-1){
+        binaryTreeNode<int>* rightnode=new binaryTreeNode<int>(rightdata);
+        front->right=rightnode;
+        pending.push(rightnode);
+        }
+    }
+    return rootnode;
+}
+
+void printLevelWise(binaryTreeNode<int>* rootnode){
+    queue<binaryTreeNode<int>*> pending;
+    pending.push(rootnode);
+    while(!pending.empty()){
+        binaryTreeNode<int>* front=pending.front();
+        cout<<front->data<<":";
+        pending.pop();
+        if(front->left!=NULL){
+        pending.push(front->left);
+        cout<<"L:"<<front->left->data<<",";
+        }
+        else{
+            cout<<"L:"<<-1<<",";
+        }
+        if(front->right!=NULL){
+        pending.push(front->right);
+        cout<<"R:"<<front->right->data;
+        }
+        else{
+        cout<<"R:"<<-1;
+        }
+        cout<<endl;
+    }
+}
+binaryTreeNode<int>* constructTree(int *input, int n) {
+	// Write your code here
+	int i;
+	if(n%2==0){
+		i=n/2-1;
+	}
+	if(n%2!=0){
+		i=n/2;
+	}
+	if(n==0){
+		return NULL;
+	}
+    binaryTreeNode<int> *root = new binaryTreeNode<int>(input[i]);
+    binaryTreeNode<int> *leftroot;
+	binaryTreeNode<int> *rightroot;
+	if(n%2!=0){
+	leftroot=constructTree(input,i);
+	rightroot=constructTree(input+i+1,i);
+	}
+	if(n%2==0){
+	leftroot=constructTree(input,i);
+	rightroot=constructTree(input+i+1,i+1);
+	}
+    root->left=leftroot;
+	root->right=rightroot;
+	return root;
+} 
+int main(){
+    
+return 0;
+}
